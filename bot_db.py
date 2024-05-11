@@ -36,5 +36,8 @@ app = ApplicationBuilder().token(TOKEN).build()
 
 app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 
+print('Start')
 app.run_polling()
+print('Stop')
+
 connection.close()
