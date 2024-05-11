@@ -21,7 +21,7 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                       FROM serials 
                       WHERE name = ? AND num = 1 AND season = 1;''', (message_text,))
     rows = cursor.fetchall()
-    print(rows)
+    print(message_text)
     if rows:
         row = rows[0]
         name, link = row[0], row[1]
