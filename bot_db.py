@@ -1,110 +1,40 @@
-# Ваш токен бота
+from telegram import Update
+from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
+import sqlite3
+
+from fake_useragent import UserAgent
+
 import os
-# importing necessary functions from dotenv library
 from dotenv import load_dotenv, dotenv_values 
-# loading variables from .env file
+
 load_dotenv() 
 TOKEN = os.getenv('TOKEN')
 chat_id = os.getenv('chat_id')
+bot = TOKEN
 
-#!/usr/bin/env python
-# pylint: disable=unused-argument
-# This program is dedicated to the public domain under the CC0 license.
-
-"""
-Simple Bot to reply to Telegram messages.
-
-First, a few handler functions are defined. Then, those functions are passed to
-the Application and registered at their respective places.
-Then, the bot is started and runs until we press Ctrl-C on the command line.
-
-Usage:
-Basic Echobot example, repeats messages.
-Press Ctrl-C on the command line or send a signal to the process to stop the
-bot.
-"""
-
-import logging
-
-from telegram import ForceReply, Update
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
-
-# Enable logging
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
-)
-# set higher logging level for httpx to avoid all GET and POST requests being logged
-logging.getLogger("httpx").setLevel(logging.WARNING)
-
-logger = logging.getLogger(__name__)
-
-
-# Define a few command handlers. These usually take the two arguments update and
-# context.
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Send a message when the command /start is issued."""
-    user = update.effective_user
-    await update.message.reply_html(
-        rf"Hi {user.mention_html()}!",
-        reply_markup=ForceReply(selective=True),
-    )
-
-
-async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Send a message when the command /help is issued."""
-    await update.message.reply_text("Help!")
-
-# Функция для обработки текстовых сообщений
-async def text_message(update, context):
-    message = update.message.text
-    print("Received message:", message)
+connection = sqlite3.connect('my_database.db')
+cursor = connection.cursor()
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Echo the user message."""
-    print(update.message)
-    """
-    Message(
-        channel_chat_created=False, 
-        chat=Chat(
-            first_name='Дмитрий', 
-            id=1516389902, 
-            last_name='Кирбаба', 
-            type=<ChatType.PRIVATE>
-        ), 
-        date=datetime.datetime(2024, 5, 3, 16, 22, 29, tzinfo=<UTC>), 
-        delete_chat_photo=False, 
-        from_user=User(
-            first_name='Дмитрий', 
-            id=1516389902, 
-            is_bot=False, 
-            language_code='ru', 
-            last_name='Кирбаба'
-        ), 
-        group_chat_created=False, 
-        message_id=1230, 
-        supergroup_chat_created=False, text='hi'
-    )
-    """
+    message_text = update.message.text
+    cursor.execute('''SELECT DISTINCT name, link 
+                      FROM serials 
+                      WHERE name = ? AND num = 1 AND season = 1;''', (message_text,))
+    rows = cursor.fetchall()
+    if rows:
+        row = rows[0]
+        name, link = row[0], row[1]
+        await context.bot.send_message(chat_id, f"{name}: {link}")  # Используйте `await` для дожидания завершения отправки сообщения
+    else:
+        await context.bot.send_message(chat_id, "Сериал не найден")
 
-    await update.message.reply_text(update.message.text)
+    # Закрываем соединение с базой данных
+  
 
 
-def main() -> None:
-    """Start the bot."""
-    # Create the Application and pass it your bot's token.
-    application = Application.builder().token(TOKEN).build()
+app = ApplicationBuilder().token(TOKEN).build()
 
-    # on different commands - answer in Telegram
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("help", help_command))
+app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 
-    # on non command i.e message - echo the message on Telegram
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
-    #application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, text_message))
-
-    # Run the bot until the user presses Ctrl-C
-    application.run_polling(allowed_updates=Update.ALL_TYPES)
-
-
-if __name__ == "__main__":
-    main()
+app.run_polling()
+connection.close()
