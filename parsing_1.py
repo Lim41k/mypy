@@ -57,8 +57,9 @@ except:
 
 count_ok = 0
 count_bad = 0
+g = datetime.datetime.now()
 
-
+print('start', g)
 
 for el in elements:
     el_1 = el.find("div", class_="field-title")
@@ -70,7 +71,7 @@ for el in elements:
     print(el_1.text + el_2.text)
   
     
-    g = datetime.datetime.now()
+    
     try:
 
         # read property updateRows
@@ -90,7 +91,7 @@ for el in elements:
     # #raise
 
 print (count_bad, count_ok)
-
+print('stop', g)
 
 connection.commit()
 
