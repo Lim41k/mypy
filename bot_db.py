@@ -21,12 +21,15 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                       FROM serials 
                       WHERE name = ? AND num = 1 AND season = 1;''', (message_text,))
     rows = cursor.fetchall()
+    print(rows)
     if rows:
         row = rows[0]
         name, link = row[0], row[1]
         await context.bot.send_message(chat_id, f"{name}: {link}")  # Используйте `await` для дожидания завершения отправки сообщения
+        print(name)
     else:
         await context.bot.send_message(chat_id, "Сериал не найден")
+        print("Сериал не найден")
 
     # Закрываем соединение с базой данных
   
