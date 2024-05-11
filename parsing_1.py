@@ -72,10 +72,11 @@ for el in elements:
     
     g = datetime.datetime.now()
     try:
+
         # read property updateRows
         query = cursor.execute(
             'INSERT INTO serials (name, date, season, num, link)' +
-            ' VALUES (?, ?, ?, ?, ?) on CONFLICT (name, season, num) DO NOTHING;' + 
+            ' VALUES (?, ?, ?, ?, ?) on CONFLICT (name, season, num) DO NOTHING;',
               (names, g, sezon, serial, link) 
               )
         count_ok+=query.rowcount
