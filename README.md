@@ -2,8 +2,10 @@
 
  pip3 install requests
  pip3 install telebot
+ pip3 install dotenv
  pip3 install beautifulsoup4
-
+ pip3 install fake_useragent
+ pip3 install lxml
  touch .env
 
  
