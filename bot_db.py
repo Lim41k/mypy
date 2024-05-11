@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 import sqlite3
-
+import datetime
 from fake_useragent import UserAgent
 
 import os
@@ -11,7 +11,7 @@ load_dotenv()
 TOKEN = os.getenv('TOKEN')
 chat_id = os.getenv('chat_id')
 bot = TOKEN
-
+g = datetime.datetime.now()
 connection = sqlite3.connect('my_database.db')
 cursor = connection.cursor()
 
@@ -36,7 +36,7 @@ app = ApplicationBuilder().token(TOKEN).build()
 
 app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 
-print('Start')
+print('Start', g)
 app.run_polling()
 print('Stop')
 
