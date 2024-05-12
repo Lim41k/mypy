@@ -53,7 +53,7 @@ try:
     );
     ''')
 except:
-    print("База данных уже существует")
+    pass
 
 count_ok = 0
 count_bad = 0
@@ -92,7 +92,8 @@ for el in elements:
         count_bad+=1
     # #raise
 
-print (count_bad, count_ok)
+print (f"Ошибок      {count_bad}")
+print (f"Новые серии {count_ok}")
 print('stop', g)
 
 connection.commit()
