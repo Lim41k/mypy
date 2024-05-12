@@ -81,9 +81,11 @@ for el in elements:
               (names, g, sezon, serial, link) 
               )
         count_ok+=query.rowcount
-        
-        #text = names + link
-        #bot.send_message(chat_id, text)
+        text = names + link
+        if query.rowcount == 1:
+            bot.send_message(chat_id, text)
+        else:
+            pass
 
     except Exception as err:
         print(f"Unexpected {err=}, {type(err)=}")
