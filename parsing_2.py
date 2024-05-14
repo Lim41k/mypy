@@ -50,7 +50,7 @@ while page != l + 1:
 
     elements = soup.find_all("div", class_="serial-bottom")
     
-    connection = sqlite3.connect('my_database_1.db')
+    connection = sqlite3.connect('my_database.db')
 
     cursor = connection.cursor() 
     
@@ -66,7 +66,7 @@ while page != l + 1:
         );
         ''')
     except:
-        цуе = 0
+        pass
 
     count_ok = 0
     count_bad = 0
@@ -88,16 +88,15 @@ while page != l + 1:
             query = cursor.execute(
             'INSERT INTO serials (name, date, season, num, link) VALUES (?, ?, ?, ?, ?) on CONFLICT (name, season, num) DO NOTHING;' , (names, g, sezon, serial, link) )
             count_ok+=query.rowcount
-            text = names
-                
-            #bot.send_message(chat_id, text)
+            
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
             count_bad+=1
             #raise
 
-    print (count_bad, count_ok, page)
-
+    print (f"Ошибок          {count_bad}")
+    print (f"добавлено серий {count_ok}")
+    print (f"Страница        {page}")
     connection.commit()
 
     connection.close()
