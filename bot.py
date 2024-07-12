@@ -23,6 +23,8 @@ app = ApplicationBuilder().token(TOKEN).build()
 
 app.add_handler(CommandHandler("hello", hello))
 
+print("Bot start")
+
 app.run_polling()
 
 print("run")
