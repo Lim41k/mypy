@@ -5,6 +5,7 @@ import os
 # importing necessary functions from dotenv library
 from dotenv import load_dotenv, dotenv_values 
 # loading variables from .env file
+print("Bot start")
 load_dotenv() 
 TOKEN = os.getenv('TOKEN')
 chat_id = os.getenv('chat_id')
@@ -23,8 +24,6 @@ app = ApplicationBuilder().token(TOKEN).build()
 
 app.add_handler(CommandHandler("hello", hello))
 
-print("Bot start")
 
+print("Bot run")
 app.run_polling()
-
-print("run")
