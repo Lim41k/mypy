@@ -7,7 +7,7 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 sudo apt update
 apt-cache policy docker-ce
 sudo apt install docker-ce
-sudo systemctl status docker
+
 sudo docker --version
 read -p "Введите ваш токен для телеграмм-бота: " token
 echo "TOKEN=\"$token\"" > .env
