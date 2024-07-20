@@ -12,6 +12,8 @@ ADD https://raw.githubusercontent.com/Lim41k/mypy/master/requirements.txt ./test
 # Переходим в рабочую директорию
 WORKDIR ./test_bot
 
+COPY .env .env
+
 # Устанавливаем зависимости из requirements.txt
 RUN pip install -r requirements.txt
 
