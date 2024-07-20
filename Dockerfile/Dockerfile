@@ -9,10 +9,10 @@ RUN mkdir -p ./test_bot
 ADD https://raw.githubusercontent.com/Lim41k/mypy/master/bot.py ./test_bot/bot.py
 ADD https://raw.githubusercontent.com/Lim41k/mypy/master/requirements.txt ./test_bot/requirements.txt
 
+COPY .env ./test_bot/.env
+
 # Переходим в рабочую директорию
 WORKDIR ./test_bot
-
-COPY .env .env
 
 # Устанавливаем зависимости из requirements.txt
 RUN pip install -r requirements.txt
