@@ -10,7 +10,7 @@ sudo apt install docker-ce
 sudo systemctl status docker
 sudo docker --version
 read -p "Введите ваш токен для телеграмм-бота: " token
-echo "TOKEN=\"$token\"" > /home/admin/test_bot/.env
+echo "TOKEN=\"$token\"" > ./test_bot/.env
 wget https://raw.githubusercontent.com/Lim41k/mypy/master/Dockerfile/Dockerfile -O Dockerfile
 docker build -t my_test_bot .
 docker run -d --name my_running_bot my_test_bot
