@@ -5,6 +5,8 @@ if command -v docker &>/dev/null; then
 echo "Docker установлен"
 docker --version
 else
+    echo "Docker не установлен "
+    echo "Идет установка...."
     sudo apt update
     sudo apt install apt-transport-https ca-certificates curl software-properties-common
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
