@@ -1,0 +1,16 @@
+let a = [{"avatar":null,"communication_disabled_until":null,"flags":0,"joined_at":"2024-06-11T18:19:41.142000+00:00","nick":null,"pending":false,"premium_since":null,"roles":[],"unusual_dm_activity_until":null,"user":{"id":"1180172046160904283","username":"dimdimi4__10231","avatar":null,"discriminator":"0","public_flags":0,"flags":0,"banner":null,"accent_color":null,"global_name":"DimDimi4","avatar_decoration_data":null,"banner_color":null,"clan":null},"mute":false,"deaf":false},{"avatar":null,"communication_disabled_until":null,"flags":0,"joined_at":"2024-06-12T06:14:17.477000+00:00","nick":null,"pending":false,"premium_since":null,"roles":[],"unusual_dm_activity_until":null,"user":{"id":"1215564491299885066","username":"limchik_47151","avatar":null,"discriminator":"0","public_flags":0,"flags":0,"banner":null,"accent_color":null,"global_name":"Limchik","avatar_decoration_data":null,"banner_color":null,"clan":null},"mute":false,"deaf":false},{"avatar":null,"communication_disabled_until":null,"flags":0,"joined_at":"2024-06-12T06:26:27.143000+00:00","nick":null,"pending":false,"premium_since":null,"roles":[],"unusual_dm_activity_until":null,"user":{"id":"1250137687231434783","username":"nikname001","avatar":null,"discriminator":"0","public_flags":0,"flags":0,"banner":null,"accent_color":null,"global_name":null,"avatar_decoration_data":null,"banner_color":null,"clan":null},"mute":false,"deaf":false},{"avatar":null,"communication_disabled_until":null,"flags":0,"joined_at":"2024-06-11T18:20:31.626000+00:00","nick":null,"pending":false,"premium_since":null,"roles":[],"unusual_dm_activity_until":null,"user":{"id":"1250147487902208131","username":"nikname002","avatar":null,"discriminator":"0","public_flags":0,"flags":0,"banner":null,"accent_color":null,"global_name":null,"avatar_decoration_data":null,"banner_color":null,"clan":null},"mute":false,"deaf":false},{"avatar":null,"communication_disabled_until":null,"flags":0,"joined_at":"2024-06-11T20:07:22.572000+00:00","nick":null,"pending":false,"premium_since":null,"roles":["1250179594028449907"],"unusual_dm_activity_until":null,"user":{"id":"1250160405922320414","username":"test-botname","avatar":null,"discriminator":"3424","public_flags":0,"flags":0,"bot":true,"banner":null,"accent_color":null,"global_name":null,"avatar_decoration_data":null,"banner_color":null,"clan":null},"mute":false,"deaf":false},{"avatar":null,"communication_disabled_until":null,"flags":0,"joined_at":"2024-06-12T19:45:56.050000+00:00","nick":null,"pending":false,"premium_since":null,"roles":["1250536586077147171"],"unusual_dm_activity_until":null,"user":{"id":"1250534293638483978","username":"testname","avatar":null,"discriminator":"9361","public_flags":0,"flags":0,"bot":true,"banner":null,"accent_color":null,"global_name":null,"avatar_decoration_data":null,"banner_color":null,"clan":null},"mute":false,"deaf":false}];
+
+const get_user = (name) =>a.find(el=>el.user.username ==name)
+
+function _get_user (name) {
+    return a.find(el=>el.user.username ==name);
+}
+
+function __get_user (name) {
+    return a.find((el)=>{
+        return el.user.username ==name
+    })
+}
+
+console.log(_get_user("limchik_47151"))
+console.log(__get_user("limchik"))
