@@ -68,7 +68,9 @@ for el in elements:
     el_3 = el_1.text + el_2.text
     [(name,sezon,serial)] = re.findall(r"(.+)\s(\d+)\s\w+\s(\d+)", el_3)
     names = name.strip()
-    print(el_1.text + el_2.text)
+    # print(el_1.text + el_2.text)
+    print(type(el_1))
+    print(el_1)
   
     
     
