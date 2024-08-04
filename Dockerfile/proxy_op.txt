@@ -1,0 +1,85 @@
+# порт на котором доступен прокси
+http_port 3128
+
+dns_nameservers 208.67.222.222 208.67.220.220
+
+# авторизация, по паролю
+#auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
+#auth_param basic children 5 startup=5 idle=1
+#auth_param basic realm Welcome to Proxy
+#auth_param basic credentialsttl 2 hours
+#acl Users proxy_auth REQUIRED
+
+# пускать товарища с этого ip без пароля
+#acl KnownUsers src "/etc/squid/KnownUsers.acl"
+
+# все остальные
+acl all src all
+
+acl SSL_ports port 443 # https
+acl SSL_ports port 563 # snews
+acl SSL_ports port 873 # rsync
+
+acl Safe_ports port 80 # http
+acl Safe_ports port 21 # ftp
+acl Safe_ports port 443 # https
+acl Safe_ports port 70 # gopher
+acl Safe_ports port 210 # wais
+acl Safe_ports port 1025-65535 # unregistered ports
+acl Safe_ports port 280 # http-mgmt
+acl Safe_ports port 488 # gss-http
+acl Safe_ports port 591 # filemaker
+acl Safe_ports port 777 # multiling http
+acl Safe_ports port 631 # cups
+acl Safe_ports port 873 # rsync
+acl Safe_ports port 901 # SWAT
+
+acl purge method PURGE
+acl CONNECT method CONNECT
+
+# доступ только с доверенных ip или по паролю
+#http_access allow Users
+#http_access allow KnownUsers
+
+#http_access deny purge
+#http_access deny !Safe_ports
+#http_access deny CONNECT !SSL_ports
+#http_access deny all
+#icp_access deny all
+
+# превращаем squid в анонимный прокси
+forwarded_for off
+header_access From deny all
+header_access Server deny all
+header_access User-Agent deny all
+header_replace User-Agent Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0
+header_access Referer deny all
+header_replace Referer unknown
+header_access WWW-Authenticate deny all
+header_access Link deny all
+header_access X-Forwarded-For deny all
+header_access Via deny all
+header_access Cache-Control deny all
+# отправять URL источника запроса, многие сайты без него ведут себя некорректно. При параноидальном подходе следует использовать
+##header_access Referer deny all
+
+coredump_dir /var/spool/squid
+
+# Отключаем дисковый кэш полностью
+#cache_mem 8 MB
+#cache_dir null /tmp
+#cache deny all
+#shutdown_lifetime 5 seconds
+
+# обрезаем логи, хранить лишнюю информацию о нас не нужно
+access_log none all
+cache_store_log none
+
+refresh_pattern ^ftp: 1440 20% 10080
+refresh_pattern ^gopher: 1440 0% 1440
+refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
+refresh_pattern \/(Packages|Sources)(|\.bz2|\.gz|\.xz)$ 0 0% 0 refresh-ims
+refresh_pattern \/Release(|\.gpg)$ 0 0% 0 refresh-ims
+refresh_pattern \/InRelease$ 0 0% 0 refresh-ims
+refresh_pattern \/(Translation-.*)(|\.bz2|\.gz|\.xz)$ 0 0% 0 refresh-ims
+refresh_pattern . 0 20% 4320
