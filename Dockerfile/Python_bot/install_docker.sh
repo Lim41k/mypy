@@ -18,7 +18,7 @@ else
 fi
 read -p "Введите ваш токен для телеграмм-бота: " token
 echo "TOKEN=\"$token\"" > .env
-wget https://raw.githubusercontent.com/Lim41k/mypy/master/Dockerfile/Dockerfile -O Dockerfile
+wget https://raw.githubusercontent.com/Lim41k/mypy/master/Dockerfile/Python_bot/Dockerfile -O Dockerfile
 docker build -t my_test_bot .
 sudo usermod -aG docker $USER
 docker run -d --name my_running_bot my_test_bot
