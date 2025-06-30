@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.12.2
 
 # Создаем директорию
 RUN mkdir -p /app/test_bot
